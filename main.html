@@ -1,0 +1,153 @@
+<html>
+<head>
+</head>
+<style>
+  #data_table tr:nth-child(odd){
+      background-color: aquamarine;
+      border: 1px solid black;
+  }
+  #data_table tr:nth-child(even){
+      background-color: wheat;
+      border: 1px solid black;
+  }
+</style>
+<body>
+  
+<div id="wrapper">
+<table >
+
+<tr><h1>Reservation Information</h1></tr><br>
+<tr>Confirmation No: <input type="text" id="Confirmation_Number"></tr><br>
+<tr>First Name: <input type="text" id="First_name"></tr><br>
+<tr>Last Name: <input type="text" id="Last_name"></tr><br>
+<tr>Number of Nights: <input type="text" id="nights"></tr><br>
+<tr>
+  Room Type: 
+        <label for="Standard">Standard</label>
+        <input type="radio" id="standard" name="Room_Type" value="Standard">
+        <label for="Deluxe">Deluxe</label>
+        <input type="radio" id="deluxe" name="Room_Type" value="Deluxe">
+        <label for="Luxury Suite">Luxury Suite</label>
+        <input type="radio" id="luxury_suite" name="Room_Type" value="Luxury_suite">
+</tr><br>
+<tr>
+  Guest Type:
+  <label for="Employee">Employee</label>
+  <input type="radio" id="employee" name="Guest_type" value="Employee">
+  <label for="VIP">VIP</label>
+  <input type="radio" id="vip" name="Guest_type" value="VIP">
+  <label for="Other">Other</label>
+  <input type="radio" id="other" name="Guest_type" value="Other">
+</tr><br>
+<tr><input type="button" class="add" onclick="add_row();" value="Save"></tr>
+<tr><input type="button" value="Clear All Reservation" onclick="delete_all()"></tr>
+</table>
+<br><br>
+<h1>
+  Reservation
+</h1>
+<br><br>
+<table cellspacing=2 cellpadding=5 id="data_table"></table>
+</div>
+<script>
+  function delete_all(){
+    var Parent = document.getElementById("data_table");
+while(Parent.hasChildNodes())
+{
+   Parent.removeChild(Parent.firstChild);
+}
+  }
+function edit_row(no)
+{
+ document.getElementById("edit_button"+no).style.display="none";
+ document.getElementById("save_button"+no).style.display="block";
+	
+ var firstName=document.getElementById("firstName_row"+no);
+ var lastName=document.getElementById("lastName_row"+no);
+ var nights=document.getElementById("nights_row"+no);
+ var room=document.getElementById("room_row"+no);
+ var guest=document.getElementById("guest_row"+no);
+
+
+
+ var firstName_data=firstName.innerHTML;
+ var lastName_data=lastName.innerHTML;
+ var new_nights=nights.innerHTML;
+ var new_room=room.innerHTML;
+ var new_guest=guest.innerHTML;
+
+
+ firstName.innerHTML="<input type='text' id='firstName_text"+no+"' value='"+firstName_data+"'>";
+ lastName.innerHTML="<input type='text' id='lastName_text"+no+"' value='"+lastName_data+"'>";
+ nights.innerHTML="<input type='text' id='nights_text"+no+"' value='"+new_nights+"'>";
+ room.innerHTML="<input type='text' id='room_text"+no+"' value='"+new_room+"'>";
+ guest.innerHTML="<input type='text' id='guest_text"+no+"' value='"+new_guest+"'>";
+ 
+}
+
+function save_row(no)
+{
+ var firstName_val=document.getElementById("firstName_text"+no).value;
+ var lastName_val=document.getElementById("lastName_text"+no).value;
+ var nights=document.getElementById("nights_text"+no).value;
+ var room=document.getElementById("room_text"+no).value;
+ var guest=document.getElementById("guest_text"+no).value;
+
+ document.getElementById("firstName_row"+no).innerHTML=firstName_val;
+ document.getElementById("lastName_row"+no).innerHTML=lastName_val;
+ document.getElementById("nights_row"+no).innerHTML=nights;
+ document.getElementById("room_row"+no).innerHTML=room;
+ document.getElementById("guest_row"+no).innerHTML=guest;
+
+ document.getElementById("edit_button"+no).style.display="block";
+ document.getElementById("save_button"+no).style.display="none";
+}
+
+function delete_row(no)
+{
+ document.getElementById("row"+no+"").outerHTML="";
+}
+
+function add_row()
+{
+ var First_name=document.getElementById("First_name").value;
+ var Last_name=document.getElementById("Last_name").value;
+ var nights=document.getElementById("nights").value;
+ var table=document.getElementById("data_table");
+ let Room_type="",Guest_type="";
+    if(document.getElementById("standard").checked){
+              Room_type="Standard";
+              document.getElementById("standard").checked=false;
+            }
+            else if(document.getElementById("deluxe").checked){
+              Room_type="Deluxe";
+              document.getElementById("deluxe").checked=false;
+            }
+            else if(document.getElementById("luxury_suite").checked){
+              Room_type="Luxury Suite";
+              document.getElementById("luxury_suite").checked=false;
+            }
+            if(document.getElementById("employee").checked){
+              Guest_type="Employee";
+              document.getElementById("employee").checked=false;
+            }
+            else if(document.getElementById("vip").checked){
+              Guest_type="VIP";
+              document.getElementById("vip").checked=false;
+            }
+            else if(document.getElementById("other").checked){
+              Guest_type="Guest";
+              document.getElementById("other").checked=false;
+            }
+ var table_len=(table.rows.length)-1;
+ var row = table.insertRow(table_len).outerHTML="<tr id='row"+table_len+"'><td id='guest_row"+table_len+"'>"+Guest_type+"</td><td id='firstName_row"+table_len+"'>"+First_name+"</td><td id='lastName_row"+table_len+"'>"+Last_name+"</td><td id='nights_row"+table_len+"'>"+nights+"</td><td>Nights , </td><td id='room_row"+table_len+"'>"+Room_type+"</td><td><input type='button' id='edit_button"+table_len+"' value='Edit' class='edit' onclick='edit_row("+table_len+")'> <input type='button' id='save_button"+table_len+"' value='Save' class='save' onclick='save_row("+table_len+")'> <input type='button' value='Delete' class='delete' onclick='delete_row("+table_len+")'></td></tr>";
+ 
+ 
+ document.getElementById("Confirmation_Number").value="";
+ document.getElementById("First_name").value="";
+ document.getElementById("Last_name").value="";
+ document.getElementById("nights").value="";
+}
+</script>
+</body>
+</html>
